@@ -13,7 +13,7 @@ RecyclerView 采用原生组件使用更加方便强大。
 
 ##使用
 ###Gradle
-Step 1. Add the JitPack repository to your build file
+### Step 1. Add the JitPack repository to your build file
 
 Add it in your root build.gradle at the end of repositories:
 
@@ -26,7 +26,7 @@ allprojects {
 	}
 ```
 
-Step 2. Add the dependency
+### Step 2. Add the dependency
 
 ```Java
 dependencies {
@@ -50,6 +50,14 @@ dependencies {
 	    <version>v1.0.0</version>
 	</dependency>
 ```  
+
+### step3
+
+拷贝`conf.gradle`到您的项目根目录，并修改项目gradle文件下引入：
+```groovy
+apply from: "conf.gradle"
+```
+
 
 4.修改BaseConf配置类，主要针对log、cache、router、imageloader。若采用默认配置，此步骤可略过.
 
