@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SwitchContentLayout">
+        <attr format="reference" name="sw_contentLayoutId"/>
+        <attr format="reference" name="sw_loadingLayoutId"/>
+        <attr format="reference" name="sw_emptyLayoutId"/>
+        <attr format="reference" name="sw_errorLayoutId"/>
+    </declare-styleable>
+    <color name="foreground_material_light">#fbf9f9</color>
+</resources>

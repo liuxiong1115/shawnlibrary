@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+        <shape
+            android:shape="rectangle"
+            android:thicknessRatio="10"
+            android:useLevel="false" >
+
+            <size
+                android:height="10dip"
+                android:width="10dip"/>
+
+            <stroke
+                android:width="2dp"
+                android:color="@color/shoppingEditBut_color"/>
+            <corners android:radius="0dp" />
+            <!-- 填充 -->
+            <solid
+                android:color="#00000000"/><!-- 填充的颜色 -->
+
+        </shape>
+    </item>
+
+</layer-list>

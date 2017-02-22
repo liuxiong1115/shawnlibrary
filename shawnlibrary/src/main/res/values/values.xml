@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SwitchContentLayout">
+        <attr format="reference" name="cl_contentLayoutId"/>
+        <attr format="reference" name="cl_loadingLayoutId"/>
+        <attr format="reference" name="cl_emptyLayoutId"/>
+        <attr format="reference" name="cl_errorLayoutId"/>
+    </declare-styleable>
+</resources>
