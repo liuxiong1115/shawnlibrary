@@ -1,1 +1,1 @@
-include ':app', ':shawnlibrary', ':shuoxue-android', ':progress-buttonLibrary'
+include ':app', ':shawnlibrary'
