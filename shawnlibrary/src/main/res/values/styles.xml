@@ -3,7 +3,7 @@
 
     <!-- toolbar标题样式 -->
     <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
@@ -14,8 +14,7 @@
         <item name="android:padding">15dp</item>
     </style>
 
-    <style name="Title_Appearance" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
-
+    <style name="Title_Appearance" parent="ToolbarTitle">
     </style>
 
 
@@ -26,6 +25,27 @@
 
     <style name="Popup_Menu" parent="Base.Widget.AppCompat.Light.PopupMenu">
         <item name="overlapAnchor">false</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+
+    <style name="AnimBottom">
+        <item name="android:windowEnterAnimation">@anim/menu_bottombar_in</item>
+        <item name="android:windowExitAnimation">@anim/menu_bottombar_out</item>
+    </style>
+
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <!-- 设置未浮动窗口 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 设置无边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 设置无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 设置完全透明 -->
+        <item name="android:windowBackground">@color/transparent</item>
+        <!-- 设置屏幕变暗 -->
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
 

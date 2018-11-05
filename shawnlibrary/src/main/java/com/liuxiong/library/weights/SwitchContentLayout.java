@@ -15,6 +15,8 @@ import com.liuxiong.library.R;
  *  状态切换Layout
  * 作者：${刘雄} on 2017/1/6 22:34
  * 邮箱：orange_lx0120@126.com
+ *
+ * SwitchContentLayout 在未指定contentView Layout的情况下默认使用内部第一个子控件作为contentView 所以SwitchContentLayout子控件只能有一个
  */
 public class SwitchContentLayout extends FrameLayout {
     View loadingView;
@@ -93,6 +95,27 @@ public class SwitchContentLayout extends FrameLayout {
             bindView(errorView, STATE_ERROR);
             bindView(emptyView, STATE_EMPTY);
             bindView(contentView, STATE_CONTENT);
+
+            if(errorView != null){
+                errorView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(listener != null)
+                            listener.onRefresh(v);
+                    }
+                });
+            }
+
+            if(emptyView != null){
+                emptyView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(listener != null)
+                            listener.onRefresh(v);
+                    }
+                });
+            }
+
 
             if (loadingView != null) {
                 setDisplayState(STATE_LOADING);
@@ -282,6 +305,17 @@ public class SwitchContentLayout extends FrameLayout {
 
     public View getErrorView() {
         return errorView;
+    }
+
+
+    public interface OnRefreshCallbackListener{
+        void onRefresh(View view);
+    }
+
+    OnRefreshCallbackListener listener;
+
+    public void setListener(OnRefreshCallbackListener listener) {
+        this.listener = listener;
     }
 
 }

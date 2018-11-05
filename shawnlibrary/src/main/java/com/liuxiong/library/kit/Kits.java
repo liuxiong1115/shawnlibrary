@@ -143,13 +143,13 @@ public class Kits {
          */
         public static Boolean isTopActivity(Context context, String packageName) {
             if (context == null || TextUtils.isEmpty(packageName)) {
-                return null;
+                return false;
             }
 
             ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
             List<ActivityManager.RunningTaskInfo> tasksInfo = activityManager.getRunningTasks(1);
             if (tasksInfo == null || tasksInfo.isEmpty()) {
-                return null;
+                return false;
             }
             try {
                 return packageName.equals(tasksInfo.get(0).topActivity.getPackageName());

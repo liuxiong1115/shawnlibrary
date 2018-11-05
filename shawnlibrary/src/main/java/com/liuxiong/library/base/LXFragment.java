@@ -1,7 +1,9 @@
 package com.liuxiong.library.base;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,10 +15,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.liuxiong.library.event.BusFactory;
 import com.liuxiong.library.kit.KnifeKit;
-import com.liuxiong.library.log.XLog;
+import com.orhanobut.logger.Logger;
 
 import butterknife.Unbinder;
 
@@ -29,10 +30,14 @@ public abstract class LXFragment extends Fragment implements UiCallback {
     protected LayoutInflater layoutInflater;
     protected Activity context;
     protected UiDelegate uiDelegate;
+    public boolean isNeedUnbinder = true;
     private Unbinder unbinder;
 
     private Handler uiHadler = new Handler(){
         public void handleMessage(Message msg){
+            if(isDetached()){
+                return;
+            }
             onHandleMessage(msg);
         }
     };
@@ -68,18 +73,40 @@ public abstract class LXFragment extends Fragment implements UiCallback {
         initData(savedInstanceState);
     }
 
+    @TargetApi(23)
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        onAttachToContext(context);
+    }
+
+    /*
+     * Deprecated on API 23
+     * Use onAttachToContext instead
+     */
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            onAttachToContext(activity);
+        }
+    }
+
+    /*
+     * Called when the fragment attaches to the context
+     */
+    protected void onAttachToContext(Context context) {
         if (context instanceof Activity) {
             this.context = (Activity) context;
         }
     }
 
+
     @Override
     public void onDetach() {
         super.onDetach();
-        context = null;
+       // context = null;
     }
 
     @Override
@@ -92,11 +119,19 @@ public abstract class LXFragment extends Fragment implements UiCallback {
         super.onDestroyView();
         BusFactory.getBus().unregister(this);
         getUiDelegate().destory();
+        if(unbinder != null && isNeedUnbinder) {
+            KnifeKit.unbind(unbinder);
+        }
+    }
+
+
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     protected UiDelegate getUiDelegate() {
         if (uiDelegate == null) {
-            uiDelegate = UiDelegateBase.create(getContext());
+            uiDelegate = UiDelegateBase.create(context);
         }
         return uiDelegate;
     }
@@ -109,7 +144,7 @@ public abstract class LXFragment extends Fragment implements UiCallback {
      */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        XLog.d("LXFragment  onCreateOptionsMenu()");
+        Logger.d("LXFragment  onCreateOptionsMenu()");
         menu.clear();
     }
 
@@ -121,6 +156,41 @@ public abstract class LXFragment extends Fragment implements UiCallback {
         clearMenu(bar);
         bar.inflateMenu(resId);
     }
+
+//    private void showPopupWindow(View view) {
+//
+//        // 一个自定义的布局，作为显示的内容
+//        View contentView = LayoutInflater.from(context).inflate(
+//                R.layout.pop_window, null);
+//        // 设置按钮的点击事件
+////        Button button = (Button) contentView.findViewById(R.id.button1);
+//
+//        final PopupWindow popupWindow = new PopupWindow(contentView,
+//                LP, LayoutParams.WRAP_CONTENT, true);
+//
+//        popupWindow.setTouchable(true);
+//
+//        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//
+//
+//                return false;
+//                // 这里如果返回true的话，touch事件将被拦截
+//                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+//            }
+//        });
+//
+//        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+//        // 我觉得这里是API的一个bug
+////        popupWindow.setBackgroundDrawable(getResources().getDrawable(
+////                R.drawable.selectmenu_bg_downward));
+//
+//        // 设置好参数之后再show
+//        popupWindow.showAsDropDown(view);
+//
+//    }
 
 
 }

@@ -3,6 +3,7 @@ package com.liuxiong.library.imageloader;
 import android.content.Context;
 import android.widget.ImageView;
 
+//import com.bumptech.glide.request.RequestOptions;
 import com.liuxiong.library.BaseConf;
 
 import java.io.File;
@@ -35,6 +36,8 @@ public interface ILoader {
      */
     void loadCirImageView(ImageView target, String url, Options options);
 
+    void loadCirImageView(ImageView target, File file, Options options);
+
     class Options {
 
         public int loadingResId = RES_NONE;        //加载中的资源id
@@ -50,6 +53,7 @@ public interface ILoader {
             this.loadingResId = loadingResId;
             this.loadErrorResId = loadErrorResId;
         }
+
     }
 
 }

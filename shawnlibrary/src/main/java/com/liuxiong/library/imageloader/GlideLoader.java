@@ -1,5 +1,6 @@
 package com.liuxiong.library.imageloader;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,7 +10,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
+//import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
+//import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.io.File;
@@ -22,7 +25,6 @@ public class GlideLoader implements ILoader {
 
     @Override
     public void init(Context context) {
-
     }
 
     @Override
@@ -68,6 +70,31 @@ public class GlideLoader implements ILoader {
         });
     }
 
+    @Override
+    public void loadCirImageView(final ImageView target, File file, Options options) {
+        Glide.with(target.getContext()).load(file).asBitmap().centerCrop().into(new BitmapImageViewTarget(target) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(target.getContext().getResources(), resource);
+                circularBitmapDrawable.setCircular(true);
+                target.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+
+
+//        Glide.with(target.getContext()).asBitmap().load(file).apply(RequestOptions.centerCropTransform()
+//                .dontAnimate()).into(new BitmapImageViewTarget(target) {
+//            @Override
+//            protected void setResource(Bitmap resource) {
+//                RoundedBitmapDrawable circularBitmapDrawable =
+//                        RoundedBitmapDrawableFactory.create(target.getContext().getResources(), resource);
+//                circularBitmapDrawable.setCircular(true);
+//                target.setImageDrawable(circularBitmapDrawable);
+//            }
+//        });
+    }
+
 
     private RequestManager getRequestManager(Context context) {
         if (context instanceof Activity) {
@@ -75,6 +102,7 @@ public class GlideLoader implements ILoader {
         }
         return Glide.with(context);
     }
+
 
     private void load(DrawableTypeRequest request, ImageView target, Options options) {
         if (options == null) options = Options.defaultOptions();

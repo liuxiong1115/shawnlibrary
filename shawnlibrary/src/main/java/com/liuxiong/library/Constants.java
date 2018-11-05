@@ -27,4 +27,9 @@ public class Constants {
      * 错误消息Key
      */
     public static String HANDLE_ERROR_MSG_KEY = "ERROR_MSG";
+    //视频播放进度更新
+    public static final int PROGRESS_CHANGED = 0;
+    //隐藏视频控制器
+    public static final int HIDE_PLAYPAUSEBTN = 1;
+
 }

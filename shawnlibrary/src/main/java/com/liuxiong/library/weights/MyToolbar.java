@@ -3,6 +3,7 @@ package com.liuxiong.library.weights;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.TintTypedArray;
@@ -10,17 +11,22 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.liuxiong.library.R;
+import com.orhanobut.logger.Logger;
 
 /**
  * 作者：${刘雄} on 2017/1/2 18:15
  * 邮箱：orange_lx0120@126.com
  */
-public class MyToolbar extends Toolbar  implements View.OnClickListener{
+public class MyToolbar extends Toolbar implements View.OnClickListener {
 
     private LinearLayoutCompat mTitleLayout;
     private TextView mTitleTextView;
@@ -35,13 +41,23 @@ public class MyToolbar extends Toolbar  implements View.OnClickListener{
     private CharSequence mCloseText;
     private boolean mCloseVisible;
 
+
     private TextView mBackTextView;
     private CharSequence mBackText;
     private boolean mBackVisible;
 
+
+    private LinearLayoutCompat menuLayout;
+
+    //右侧菜单按钮
+    private TextView mMenuTextView;
+    private CharSequence mMenuText;
+    private boolean mMenuVisible;
+
+    private View menuView;
+
+
     private static final int DEFAULT_BACK_MARGIN_RIGHT = 8;
-
-
     protected OnOptionItemClickListener mOnOptionItemClickListener;
 
     public MyToolbar(Context context) {
@@ -178,11 +194,12 @@ public class MyToolbar extends Toolbar  implements View.OnClickListener{
                         typedArray.getDimensionPixelSize(R.styleable.TitleToolbar_backTextSize, 0));
             }
 
+
+
             Drawable drawable = typedArray.getDrawable(R.styleable.TitleToolbar_backIcon);
             if (drawable != null) {
                 mBackTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
             }
-
             setBackText(typedArray.getText(R.styleable.TitleToolbar_backText));
             setBackVisible(typedArray.getBoolean(R.styleable.TitleToolbar_backVisible, false));
 
@@ -194,7 +211,17 @@ public class MyToolbar extends Toolbar  implements View.OnClickListener{
 
             layoutParams.rightMargin = typedArray.getDimensionPixelSize(
                     R.styleable.TitleToolbar_backMarginRight, dp2px(DEFAULT_BACK_MARGIN_RIGHT));
+            layoutParams.leftMargin = typedArray.getDimensionPixelSize(
+                    R.styleable.TitleToolbar_backMarginLeft, dp2px(DEFAULT_BACK_MARGIN_RIGHT));
+            layoutParams.topMargin = typedArray.getDimensionPixelSize(
+                    R.styleable.TitleToolbar_backMarginTop, dp2px(DEFAULT_BACK_MARGIN_RIGHT));
+            layoutParams.bottomMargin = typedArray.getDimensionPixelSize(
+                    R.styleable.TitleToolbar_backMarginBottom, dp2px(DEFAULT_BACK_MARGIN_RIGHT));
 
+//            mBackTextView.setBackgroundColor(Color.GREEN);
+//            mBackTextView.setPadding(10 , 10 , 10 , 10);
+            //扩大返回按钮点击热区
+            expandViewTouchDelegate(mBackTextView ,10 , 10 , 15 , 80);
             addView(mBackTextView, layoutParams);
         }
 
@@ -234,6 +261,78 @@ public class MyToolbar extends Toolbar  implements View.OnClickListener{
                     LayoutParams.MATCH_PARENT, Gravity.LEFT | Gravity.CENTER_VERTICAL));
         }
 
+
+//        int menuViewlayout = a.getResourceId(R.styleable.TitleToolbar_menuViewLayout, 0);
+        if (!isChild(menuLayout)) {
+            menuLayout = new LinearLayoutCompat(context);
+            menuLayout.setOrientation(LinearLayout.HORIZONTAL);
+            menuLayout.setGravity(Gravity.CENTER_VERTICAL);
+            addView(menuLayout, new LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, Gravity.RIGHT));
+
+//            if(menuViewlayout >0){
+//                menuView = LayoutInflater.from(context).inflate(menuViewlayout , null);
+//                if(menuView != null) {
+//                    menuLayout.addView(menuView, new LayoutParams(
+//                            LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, Gravity.CENTER));
+//                }else{
+//                    XLog.e("menuLayoutView is null !!!");
+//                }
+//            }
+        }
+
+        if (!isChild(mMenuTextView, menuLayout)) {
+            mMenuTextView = new TextView(context);
+            mMenuTextView.setId(R.id.menu);
+            mMenuTextView.setSingleLine();
+            mMenuTextView.setEllipsize(TextUtils.TruncateAt.END);
+            mMenuTextView.setGravity(Gravity.CENTER_VERTICAL);
+
+            int backTextAppearance =
+                    typedArray.getResourceId(R.styleable.TitleToolbar_backTextAppearance, 0);
+            if (backTextAppearance != 0) {
+                mMenuTextView.setTextAppearance(context, backTextAppearance);
+            }
+
+            if (typedArray.hasValue(R.styleable.TitleToolbar_backTextColor)) {
+                int backTextColor =
+                        typedArray.getColor(R.styleable.TitleToolbar_backTextColor, Color.WHITE);
+                mMenuTextView.setTextColor(backTextColor);
+            }
+
+            if (typedArray.hasValue(R.styleable.TitleToolbar_backTextSize)) {
+                mMenuTextView.setTextSize(
+                        typedArray.getDimensionPixelSize(R.styleable.TitleToolbar_backTextSize, 0));
+            }
+
+            Drawable drawable = typedArray.getDrawable(R.styleable.TitleToolbar_menuIcon);
+            if (drawable != null) {
+                mMenuTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            }
+
+            setMenuText(typedArray.getText(R.styleable.TitleToolbar_menuText));
+            setMenuVisible(typedArray.getBoolean(R.styleable.TitleToolbar_menuVisible, false));
+
+            mMenuTextView.setClickable(true);
+            mMenuTextView.setOnClickListener(this);
+
+            LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
+                    LayoutParams.MATCH_PARENT, Gravity.CENTER_VERTICAL);
+
+            layoutParams.rightMargin = typedArray.getDimensionPixelSize(
+                    R.styleable.TitleToolbar_menuMarginRight, dp2px(DEFAULT_BACK_MARGIN_RIGHT));
+            layoutParams.leftMargin = typedArray.getDimensionPixelSize(
+                    R.styleable.TitleToolbar_menuMarginLeft, dp2px(DEFAULT_BACK_MARGIN_RIGHT));
+            layoutParams.topMargin = typedArray.getDimensionPixelSize(
+                    R.styleable.TitleToolbar_backMarginTop, dp2px(DEFAULT_BACK_MARGIN_RIGHT));
+            layoutParams.bottomMargin = typedArray.getDimensionPixelSize(
+                    R.styleable.TitleToolbar_backMarginBottom, dp2px(DEFAULT_BACK_MARGIN_RIGHT));
+
+            mMenuTextView.setPadding(0, 0, layoutParams.rightMargin, 0);
+
+            menuLayout.addView(mMenuTextView, layoutParams);
+        }
+
         typedArray.recycle();
         a.recycle();
     }
@@ -247,11 +346,11 @@ public class MyToolbar extends Toolbar  implements View.OnClickListener{
     }
 
 
-    public void setContentView(View view){
+    public void setContentView(View view) {
         addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
-    public void removeAllView(){
+    public void removeAllView() {
         removeAllViews();
     }
 
@@ -273,6 +372,13 @@ public class MyToolbar extends Toolbar  implements View.OnClickListener{
             mTitleTextView.setTextColor(color);
         }
     }
+
+    public void setTitleTextSize(float size) {
+        if (mTitleTextView != null) {
+            mTitleTextView.setTextSize(size);
+        }
+    }
+
 
     public void setTitleVisible(boolean visible) {
         mTitleVisible = visible;
@@ -310,6 +416,13 @@ public class MyToolbar extends Toolbar  implements View.OnClickListener{
         }
     }
 
+    public void setSubtitleTextSize(float size) {
+        if (mSubtitleTextView != null) {
+            mSubtitleTextView.setTextSize(size);
+        }
+    }
+
+
     public void setSubtitleVisible(boolean visible) {
         mSubTitleVisible = visible;
         mSubtitleTextView.setVisibility(visible ? VISIBLE : GONE);
@@ -329,6 +442,55 @@ public class MyToolbar extends Toolbar  implements View.OnClickListener{
             mCloseTextView.setText(closeText);
         }
     }
+
+    public void setMenuText(int resId) {
+        setMenuText(getContext().getText(resId));
+    }
+
+    public void setMenuText(CharSequence closeText) {
+        mMenuText = closeText;
+        if (mMenuTextView != null) {
+//            mMenuTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            mMenuTextView.setText(closeText);
+        }
+    }
+
+    public View getMenuView() {
+        return mMenuTextView;
+    }
+
+    public void setMenuTextColor(int rId) {
+        if (mMenuTextView != null) {
+            mMenuTextView.setTextColor(getResources().getColor(rId));
+        }
+    }
+
+
+    public CharSequence getMenuText() {
+        return mMenuText;
+    }
+
+    public void setMenuVisible(boolean visible) {
+        mMenuVisible = visible;
+//        mMenuTextView.setVisibility(visible ? VISIBLE : GONE);
+        mMenuTextView.setVisibility(VISIBLE);
+    }
+
+    public boolean getMenuVisible() {
+        return mMenuVisible;
+    }
+
+    public void setMenuDrawable(int rId) {
+        Drawable drawable = getResources().getDrawable(rId);
+        setMenuDrawable(drawable);
+    }
+
+    public void setMenuDrawable(Drawable drawable) {
+        if (drawable != null) {
+            mMenuTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        }
+    }
+
 
     public CharSequence getCloseText() {
         return mCloseText;
@@ -358,6 +520,40 @@ public class MyToolbar extends Toolbar  implements View.OnClickListener{
         }
     }
 
+    public void setBackTextDrawable(int rId) {
+        Drawable drawable = getResources().getDrawable(rId);
+        setBackTextDrawable(drawable);
+    }
+
+    public void setBackTextDrawable(Drawable drawable) {
+        if (drawable != null) {
+            mBackTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        }
+    }
+
+    /**
+     * 设置Menu
+     *
+     * @param layoutId
+     */
+    public void setMenuView(int layoutId) {
+        menuView = LayoutInflater.from(getContext()).inflate(layoutId, null);
+        if (menuView != null) {
+            menuLayout.removeAllViews();
+            ViewGroup parentView = (ViewGroup) menuView;
+            int count = parentView.getChildCount();
+            for (int i = 0; i < count; i++) {
+                View childView = parentView.getChildAt(i);
+                if (childView != null) {
+                    childView.setOnClickListener(this);
+                }
+            }
+            menuLayout.addView(menuView, new LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, Gravity.CENTER));
+        }
+    }
+
+
     public CharSequence getBackText() {
         return mBackText;
     }
@@ -383,5 +579,53 @@ public class MyToolbar extends Toolbar  implements View.OnClickListener{
     }
 
 
+
+    /**
+     * 扩大View的触摸和点击响应范围,最大不超过其父View范围
+     *
+     * @param view
+     * @param top
+     * @param bottom
+     * @param left
+     * @param right
+     */
+    public static void expandViewTouchDelegate(final View view, final int top, final int bottom, final int left, final int right) {
+        ((View) view).post(new Runnable() {
+            @Override
+            public void run() {
+                Rect bounds = new Rect();
+                view.setEnabled(true);
+                view.getHitRect(bounds);
+                bounds.top -= top;
+                bounds.bottom += bottom;
+                bounds.left -= left;
+                bounds.right += right;
+                TouchDelegate touchDelegate = new TouchDelegate(bounds, view);
+                if (View.class.isInstance(view.getParent())) {
+                    ((View) view.getParent()).setTouchDelegate(touchDelegate);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 还原View的触摸和点击响应范围,最小不小于View自身范围
+     *
+     * @param view
+     */
+    public static void restoreViewTouchDelegate(final View view) {
+        ((View) view.getParent()).post(new Runnable() {
+            @Override
+            public void run() {
+                Rect bounds = new Rect();
+                bounds.setEmpty();
+                TouchDelegate touchDelegate = new TouchDelegate(bounds, view);
+                if (View.class.isInstance(view.getParent())) {
+                    ((View) view.getParent()).setTouchDelegate(touchDelegate);
+                }
+            }
+        });
+    }
 
 }

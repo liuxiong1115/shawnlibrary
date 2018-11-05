@@ -12,6 +12,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
+
     buildTypes {
         release {
             minifyEnabled false
@@ -22,23 +23,30 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile project(':progress-buttonLibrary')
+    compile rootProject.ext.dependencies["multidex"]
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["support-v4"]
+    compile rootProject.ext.dependencies["cardview"]
     compile rootProject.ext.dependencies["design"]
     compile rootProject.ext.dependencies["annotations"]
     compile rootProject.ext.dependencies["recyclerview-v7"]
     compile rootProject.ext.dependencies["eventbus"]
     compile rootProject.ext.dependencies["butterknife"]
     compile rootProject.ext.dependencies["glide"]
+//    annotationProcessor  rootProject.ext.dependencies["glide-compiler"]
+    compile(rootProject.ext.dependencies["glide"]) {
+        exclude group: "com.android.support"
+    }
     compile rootProject.ext.dependencies["baseRecyclerViewAdapter"]
     compile rootProject.ext.dependencies["okhttputils"]
     compile rootProject.ext.dependencies["gson"]
     compile rootProject.ext.dependencies["utilcode"]
     compile rootProject.ext.dependencies["tkrefreshlayout"]
-//    compile rootProject.ext.dependencies["autolayout"]
-    testCompile 'junit:junit:4.12'
+    compile rootProject.ext.dependencies["lottie"]
+    compile rootProject.ext.dependencies["easypermissions"]
+    compile rootProject.ext.dependencies["kprogresshud"]
+    compile rootProject.ext.dependencies["logger"]
+    compile rootProject.ext.dependencies["banner"]
+    compile rootProject.ext.dependencies["BottomNavigationViewEx"]
+    compile rootProject.ext.dependencies["badgeview"]
 }

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#CE472A</color>
+    <color name="colorPrimaryDark">#c94529</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorWhite">#ffffff</color>
+    <color name="white">#ffffff</color>
+
+    <color name="transparent">#00000000</color>
+    <!-- 统一背景颜色  style文件中设置 -->
+    <color name="backgroud_color">#f5f5f5</color>
+
+    <!--按钮禁用颜色-->
+    <color name="butDisEanled">#c1c1c1</color>
+    <!--按钮可用颜色-->
+    <color name="butEanled">#338fff</color>
+    <!--编辑字体颜色-->
+    <color name="textEdit">#595959</color>
+    <!--提示字体颜色-->
+    <color name="textHint">#c9c9c9</color>
+    <!--次级文本按钮颜色-->
+    <color name="textButColor">#ababab</color>
+    <!--分割线颜色-->
+    <color name="lineColor">#e7e7e7</color>
+    <!--三方登录文字颜色-->
+    <color name="sTextColor">#bbbbbb</color>
+    <color name="color_999999">#999999</color>
+    <color name="red">#ff0000</color>
+    <color name="colorBottomMenu">#b3bdbf</color>
+    <color name="color_595959">#595959</color>
+    <color name="color_bfbfbf">#bfbfbf</color>
+    <color name="color_818181">#818181</color>
+    <color name="color_b7c6db">#b7c6db</color>
+    <color name="color_010101">#010101</color>
+    <color name="color_414141">#414141</color>
+    <color name="color_4680ff">#4680ff</color>
+
+    <color name="colore2e2e2">#e2e2e2</color>
+    <color name="color999999">#999999</color>
+    <color name="color_dfdfdf">#dfdfdf</color>
+    <color name="color_62c9f7">#62c9f7</color>
+    <color name="color_616161">#616161</color>
+    <color name="color_f5f5f9">#f5f5f9</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_969696">#969696</color>
+    <color name="color_757575">#757575</color>
+    <color name="color_9f9f9f">#9f9f9f</color>
+    <color name="color_ffb756">#ffb756</color>
+    <color name="color_338fff">#338fff</color>
+    <color name="color_c0c0c0">#c0c0c0</color>
+    <color name="black">#000000</color>
+    <color name="black_15">#26000000</color>
+    <color name="black_20">#33000000</color>
+    <color name="black_30">#4c000000</color>
+    <color name="black_40">#66000000</color>
+    <color name="black_50">#80000000</color>
+    <color name="black_60">#99000000</color>
+    <color name="black_70">#b2000000</color>
+    <color name="black_75">#bf000000</color>
+    <color name="black_80">#cc000000</color>
+    <color name="black_90">#ca000000</color>
+    <drawable name="transparent_background">#00000000</drawable>
+    <drawable name="alpha_background">#bb000000</drawable>
+    <color name="color_00d35b">#00d35b</color>
+    <color name="color_ffb34b">#ffb34b</color>
+    <color name="color_fc6b61">#fc6b61</color>
+
+    <color name="mb_blue">#338fff</color>
+    <color name="mb_blue_dark">#3557fb</color>
+    <color name="blueText">
+        #338fff
+    </color>
+
+    <color name="toolbar_title_text">
+        #333333
+    </color>
+    <color name="tab_text_normal">#818181</color>
+    <color name="tab_text_selected">#338fff</color>
+
+    <color name="divider_color">#e7e7e7</color>
+
+    <color name="calendar_color1">#3365ff</color>
+    <color name="calendar_color2">#2bd74f</color>
+    <color name="calendar_color3">#d1d72b</color>
+    <color name="calendar_Sundaycolor">#ededed</color>
+    <color name="color_f96380">#f96380</color>
+    <color name="color_dadada">#dadada</color>
+    <color name="color_5f6672">#5f6672</color>
+    <color name="color_f96f49">#f96f49</color>
+
+
+</resources>

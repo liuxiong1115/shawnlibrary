@@ -9,7 +9,7 @@ import com.liuxiong.library.router.Router;
 public class BaseConf {
     // #log
     public static final boolean LOG = true;
-    public static final String LOG_TAG = "XDroid";
+    public static final String LOG_TAG = "Shawn";
 
     // #cache
     public static final String CACHE_SP_NAME = "config";

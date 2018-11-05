@@ -2,25 +2,23 @@ package com.liuxiong.library.base;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
-
-import com.liuxiong.library.log.XLog;
+import com.kaopiz.kprogresshud.KProgressHUD;
+import com.orhanobut.logger.Logger;
 
 import java.io.Serializable;
 
 
 /**
- * Created by wanglei on 2016/12/1.
+ *
  */
 
 public class UiDelegateBase implements UiDelegate {
@@ -100,9 +98,6 @@ public class UiDelegateBase implements UiDelegate {
         }
     }
 
-
-
-
     public void showInputSoft(View view) {
 //        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //        imm.showSoftInputFromInputMethod(view.getWindowToken(), InputMethodManager.SHOW_FORCED);
@@ -131,26 +126,70 @@ public class UiDelegateBase implements UiDelegate {
 
 
     /**
+     * 显示顶部Topbar，用于沉浸式设计
+     * @param activity
+     * @param rBarId  Topbar ID
+     */
+    public void showBaseTopbar(Activity activity , int rBarId, boolean isShow){
+        View baseTopbar = activity.findViewById(rBarId);
+        if(baseTopbar != null){
+            baseTopbar.setVisibility(isShow? View.VISIBLE : View.GONE);
+        }
+    }
+
+    /**
+     * 解决Fragment中View ID冲突问题
+     * @param view
+     * @param rBarId
+     * @param isShow
+     */
+    @Override
+    public void showBaseTopbar(View view, int rBarId, boolean isShow) {
+        if(view == null){
+            return;
+        }
+        View baseTopbar = view.findViewById(rBarId);
+        if(baseTopbar != null){
+            baseTopbar.setVisibility(isShow? View.VISIBLE : View.GONE);
+        }
+    }
+
+
+    /**
      * 发送简单通知消息
      *
      * @param value
      * @param w
      */
     public void sendHandleSimpleMessage(Handler uiHadler ,Object value, int w) {
-        XLog.d("sendHandleSimpleMessage -- >> " + "    value -- >> " + value + "  w -- >> " + w);
+//        XLog.d("sendHandleSimpleMessage -- >>  value -- >> " + value + "  w -- >> " + w);
         Message msg = new Message();
         msg.what = w;
         msg.obj = value;
         if (uiHadler != null) {
             uiHadler.sendMessage(msg);
         } else {
-            XLog.e("uiHadler is null !!! ");
+            Logger.e("uiHadler is null !!! ");
+        }
+    }
+
+    @Override
+    public void sendHandleSimpleMessage(Handler uiHadler, Object value, int w, int arg1) {
+        Logger.d("sendHandleSimpleMessage -- >> " + "    value -- >> " + value + "  w -- >> " + w + "   arg1-->" + arg1);
+        Message msg = new Message();
+        msg.what = w;
+        msg.obj = value;msg.arg1 = arg1;
+
+        if (uiHadler != null) {
+            uiHadler.sendMessage(msg);
+        } else {
+            Logger.e("uiHadler is null !!! ");
         }
     }
 
 
     public void sendHandleSerializableMessage(Handler uiHadler ,String key, Serializable value, int w) {
-        XLog.d("sendHandleSerializableMessage -- >> " + key + "    value -- >> " + value + "  w -- >> " + w);
+        Logger.d("sendHandleSerializableMessage -- >> " + key + "    value -- >> " + value + "  w -- >> " + w);
         Bundle bundle = new Bundle();
         Message msg = new Message();
         bundle.putSerializable(key, value);
@@ -159,13 +198,13 @@ public class UiDelegateBase implements UiDelegate {
         if (uiHadler != null) {
             uiHadler.sendMessage(msg);
         } else {
-            XLog.e("uiHadler is null !!! ");
+            Logger.e("uiHadler is null !!! ");
         }
     }
 
 
     public void sendHandleSerializableMessageDelayed(Handler uiHadler ,String key, Serializable value, int w , long delayed) {
-        XLog.d("sendHandleSerializableMessage -- >> " + key + "    value -- >> " + value + "  w -- >> " + w);
+        Logger.d("sendHandleSerializableMessage -- >> " + key + "    value -- >> " + value + "  w -- >> " + w);
         Bundle bundle = new Bundle();
         Message msg = new Message();
         bundle.putSerializable(key, value);
@@ -174,7 +213,7 @@ public class UiDelegateBase implements UiDelegate {
         if (uiHadler != null) {
             uiHadler.sendMessageDelayed(msg , delayed);
         } else {
-            XLog.e("uiHadler is null !!! ");
+            Logger.e("uiHadler is null !!! ");
         }
     }
 
@@ -183,7 +222,7 @@ public class UiDelegateBase implements UiDelegate {
 
 
     public void sendHandleSerializableMessage(Handler uiHadler ,String key, Serializable value, int w, int arg1) {
-        XLog.d("sendHandleSerializableMessage -- >> " + key + "    value -- >> " + value + "   arg1 -- >> " + arg1);
+        Logger.d("sendHandleSerializableMessage -- >> " + key + "    value -- >> " + value + "   arg1 -- >> " + arg1);
         Bundle bundle = new Bundle();
         Message msg = new Message();
         bundle.putSerializable(key, value);
@@ -193,13 +232,13 @@ public class UiDelegateBase implements UiDelegate {
         if (uiHadler != null) {
             uiHadler.sendMessage(msg);
         } else {
-            XLog.e("uiHadler is null !!! ");
+            Logger.e("uiHadler is null !!! ");
         }
     }
 
 
     public void sendHandleSerializableMessage(Handler uiHadler ,String key, Serializable value, int w, int arg1, int arg2) {
-        XLog.d("sendHandleSerializableMessage -- >> " + key + "    value -- >> " + value +
+        Logger.d("sendHandleSerializableMessage -- >> " + key + "    value -- >> " + value +
                 " w -- >> " + w + " -- >> " + arg1 + " arg2 -- >> " + arg2);
         Bundle bundle = new Bundle();
         Message msg = new Message();
@@ -211,25 +250,30 @@ public class UiDelegateBase implements UiDelegate {
         if (uiHadler != null) {
             uiHadler.sendMessage(msg);
         } else {
-            XLog.e("uiHadler is null !!! ");
+            Logger.e("uiHadler is null !!! ");
         }
     }
 
 
     public void sendEmptyMessageDelayed(Handler uiHadler ,int w, long delayed) {
-        XLog.d("sendEmptyMessageDelayed -- >> " + " w -- >> " + w + " -- >> "  + " delayed -- >> " + delayed);
+        Logger.d("sendEmptyMessageDelayed -- >> " + " w -- >> " + w + " -- >> "  + " delayed -- >> " + delayed);
         if (uiHadler != null) {
             uiHadler.sendEmptyMessageDelayed(w , delayed);
         } else {
-            XLog.e("uiHadler is null !!! ");
+            Logger.e("uiHadler is null !!! ");
+        }
+    }
+
+    @Override
+    public void removeMessages(Handler uiHadler, int w) {
+        if(uiHadler!=null){
+            uiHadler.removeMessages(w);
         }
     }
 
 
-
-
     public void sendHandleStringMessage(Handler uiHadler ,String key, String value, int what) {
-        XLog.d("sendHandleStringMessage -- key -- >> " + key + "    value -- >> " + value);
+        Logger.d("sendHandleStringMessage -- key -- >> " + key + "    value -- >> " + value);
         Message msg = new Message();
         Bundle bundle = new Bundle();
         bundle.putString(key, value);
@@ -238,7 +282,26 @@ public class UiDelegateBase implements UiDelegate {
         if (uiHadler != null) {
             uiHadler.sendMessage(msg);
         } else {
-            XLog.e("uiHadler is null !!! ");
+            Logger.e("uiHadler is null !!! ");
+        }
+    }
+
+
+    public KProgressHUD showLoadingHUD(String detailsLabel){
+        KProgressHUD kProgressHUD = KProgressHUD.create(context)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel(detailsLabel)
+                .setCancellable(true)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+        return kProgressHUD;
+    }
+
+
+    public void dismissLoadingHUD(KProgressHUD kProgressHUD){
+        if(kProgressHUD != null){
+            kProgressHUD.dismiss();
         }
     }
 

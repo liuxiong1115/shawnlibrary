@@ -38,6 +38,18 @@
         <attr name="backTextSize" format="dimension" />
         <attr name="backIcon" format="reference" />
         <attr name="backMarginRight" format="dimension" />
+        <attr name="backMarginLeft" format="dimension" />
+        <attr name="backMarginTop" format="dimension" />
+        <attr name="backMarginBottom" format="dimension" />
+
+        <attr name="menuIcon" format="reference" />
+        <attr name="menuText" format="string" />
+        <attr name="menuVisible" format="boolean" />
+        <attr name="menuMarginRight" format="dimension" />
+        <attr name="menuMarginLeft" format="dimension" />
+
+        <attr name="menuViewLayout" format="reference" />
+
     </declare-styleable>
 
 </resources>
