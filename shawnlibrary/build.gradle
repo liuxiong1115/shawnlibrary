@@ -10,6 +10,12 @@ android {
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
 
@@ -53,4 +59,6 @@ dependencies {
     compile rootProject.ext.dependencies["banner"]
     compile rootProject.ext.dependencies["BottomNavigationViewEx"]
     compile rootProject.ext.dependencies["badgeview"]
+    compile rootProject.ext.dependencies["alibabaRouter"]
+    annotationProcessor rootProject.ext.dependencies["alibabaRouterAnnotationProcessor"]
 }

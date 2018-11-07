@@ -48,6 +48,8 @@ ext {
             "badgeview"    : "q.rorbin:badgeview:1.1.0",//角标
             "filepicker"    : "com.droidninja:filepicker:2.1.5",//文件选择
             "MultiTypeFilePicker"    : "com.vincent.filepicker:MultiTypeFilePicker:1.0.7",//文件选择
-            "BottomNavigationViewEx"    : "com.github.ittianyu:BottomNavigationViewEx:1.2.4"//底部按钮
+            "BottomNavigationViewEx"    : "com.github.ittianyu:BottomNavigationViewEx:1.2.4",//底部按钮
+            "alibabaRouter"            :   "com.alibaba:arouter-api:1.4.1",//路由管理
+            "alibabaRouterAnnotationProcessor" : "com.alibaba:arouter-compiler:1.2.2"
     ]
 }
