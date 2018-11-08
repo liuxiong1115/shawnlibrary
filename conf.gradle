@@ -50,6 +50,6 @@ ext {
             "MultiTypeFilePicker"    : "com.vincent.filepicker:MultiTypeFilePicker:1.0.7",//文件选择
             "BottomNavigationViewEx"    : "com.github.ittianyu:BottomNavigationViewEx:1.2.4",//底部按钮
             "alibabaRouter"            :   "com.alibaba:arouter-api:1.4.1",//路由管理
-            "alibabaRouterAnnotationProcessor" : "com.alibaba:arouter-compiler:1.2.2"
+            "alibabaRouter-apt" : "com.alibaba:arouter-compiler:1.2.2"
     ]
 }

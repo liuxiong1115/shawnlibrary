@@ -60,5 +60,5 @@ dependencies {
     compile rootProject.ext.dependencies["BottomNavigationViewEx"]
     compile rootProject.ext.dependencies["badgeview"]
     compile rootProject.ext.dependencies["alibabaRouter"]
-    annotationProcessor rootProject.ext.dependencies["alibabaRouterAnnotationProcessor"]
+//    annotationProcessor rootProject.ext.dependencies["alibabaRouterAnnotationProcessor"]
 }
