@@ -43,7 +43,7 @@ dependencies {
     compile rootProject.ext.dependencies["eventbus"]
     compile rootProject.ext.dependencies["butterknife"]
     compile rootProject.ext.dependencies["glide"]
-//    annotationProcessor  rootProject.ext.dependencies["glide-compiler"]
+    annotationProcessor  rootProject.ext.dependencies["glide-apt"]
     compile(rootProject.ext.dependencies["glide"]) {
         exclude group: "com.android.support"
     }
